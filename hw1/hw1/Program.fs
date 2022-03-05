@@ -47,6 +47,3 @@ let findFirst list number =
         | h :: t when h = number -> i
         | _ -> findElement (List.tail list) number (i + 1)
     findElement list number 0
-    
-    
-printf "%d" (findFirst [1; 2; 3; 4] 3)
