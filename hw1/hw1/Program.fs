@@ -2,7 +2,7 @@ open System
 
 let factorial x =
     if x < 0 then
-        raise (ArgumentException"n должно быть неотрицательным")
+        raise (ArgumentException "n должно быть неотрицательным")
     if x = 0 then
         1
     else
@@ -15,7 +15,7 @@ let factorial x =
     
 let fibonacci n =
     if n < 0 then
-        raise (ArgumentException"n должно быть неотрицательным")
+        raise (ArgumentException "n должно быть неотрицательным")
     else
         let rec fibonacciCount number acc1 acc2 =
             if number = n then
@@ -25,15 +25,12 @@ let fibonacci n =
         fibonacciCount 0 0 1
         
 let reverseList list =
-    if List.length list = 0 then
-        []
-    else
-        let rec reverseListMaker list listNew  =
-            if list = [] then
-                listNew
-            else
-                reverseListMaker (List.tail list) ((List.head list) :: listNew)
-        reverseListMaker list []
+    let rec reverseListMaker list listNew  =
+        if list = [] then
+            listNew
+        else
+            reverseListMaker (List.tail list) ((List.head list) :: listNew)
+    reverseListMaker list []
         
 let makeList n m =
     let rec countPower n m list =
@@ -44,14 +41,12 @@ let makeList n m =
     countPower n (n + m) []
 
 let findFirst list number =
-    if list = [] then
-        raise(ArgumentException(""))
-    else
-        let rec findElement list number i =
-            if list = [] then
-                raise(ArgumentException("Нет такого элемента в списке"))
-            if List.head list = number then
-                i
-            else
-                findElement (List.tail list) number (i + 1)
-        findElement list number 0
+    let rec findElement list number i =
+        match list with
+        | [] -> raise(ArgumentException "Нет такого элемента в списке")
+        | h :: t when h = number -> i
+        | _ -> findElement (List.tail list) number (i + 1)
+    findElement list number 0
+    
+    
+printf "%d" (findFirst [1; 2; 3; 4] 3)
