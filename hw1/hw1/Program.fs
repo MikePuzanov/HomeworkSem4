@@ -30,7 +30,6 @@ let reverseList list =
         | [] -> listNew
         | _ -> reverseListMaker (List.tail list) ((List.head list) :: listNew)
     reverseListMaker list []
-    
         
 let makeList n m =
     let rec countPower n m list =
