@@ -26,11 +26,11 @@ let fibonacci n =
         
 let reverseList list =
     let rec reverseListMaker list listNew  =
-        if list = [] then
-            listNew
-        else
-            reverseListMaker (List.tail list) ((List.head list) :: listNew)
+        match list with
+        | [] -> listNew
+        | _ -> reverseListMaker (List.tail list) ((List.head list) :: listNew)
     reverseListMaker list []
+    
         
 let makeList n m =
     let rec countPower n m list =
