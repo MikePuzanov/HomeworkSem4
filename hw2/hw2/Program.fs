@@ -15,20 +15,20 @@ let countEvenNumbersFold list =
 // бинарное дерево
 type Tree<'a> =
 | Tree of 'a * Tree<'a> * Tree<'a>
-| Empty 
+| Tip of 'a
 
 // функция, которая применяет функцию к каждому элементу дерева
 let rec funcToTree tree func =
     match tree with
-    | Empty -> Empty
+    | Tip (value) -> Tip(func value)
     | Tree (value, left, right) -> Tree(func value, funcToTree left func, funcToTree right func)
 
 // все операции
 type Operation =
-    | Sum
-    | Sub
-    | Multi
-    | Div
+    | Summation
+    | Subtracting
+    | Multiplication
+    | Division
   
 //  арифметическое дерево
 type TreeArithmetic<'t> = 
@@ -43,29 +43,24 @@ let rec count tree =
         let left = count left
         let right = count right
         match operation with
-        | Sum -> left + right
-        | Sub -> left - right
-        | Multi ->  left * right
-        | Div when right <> 0 -> left / right
-        | Div when right = 0 -> raise(ArgumentNullException "На ноль делить нельзя")
-        | _ -> raise(InvalidOperationException "Такой операции не существует!")
+        | Summation -> left + right
+        | Subtracting -> left - right
+        | Multiplication ->  left * right
+        | Division -> left / right
 
 // выводит бесконечную последовательность простых чисел
-let primeNumbers =
-    let rec test element list =
+let primeNumbers () =
+    let rec testOnPrime element list =
         match list with
         | [] -> true
         | h :: tail when element % h = 0 -> false
-        | h :: tail when element % h <> 0 -> test element tail
-        | _ -> false      
+        | h :: tail when element % h <> 0 -> testOnPrime element tail
     let rec sequence element list =
         seq {
-            if test element list then
+            if testOnPrime element list then
                 yield element
                 yield! sequence (element + 1) (element :: list)
             else
                 yield! sequence (element + 1) list
         }
     sequence 2 []
-    
-printfn "%d"  (Seq.item 5 primeNumbers)
