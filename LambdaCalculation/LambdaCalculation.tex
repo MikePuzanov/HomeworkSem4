@@ -1,0 +1,31 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\begin{document}
+
+\section{№1 \lambda-терм (( \lambda a.( \lambda b.b b) ( \lambda b.b b)) b) (( \lambda c.(c b)) ( \lambda a.a) }
+
+(( \lambda a.( \lambda b.b b) ( \lambda b.b b)) b) (( \lambda c.(c b)) ( \lambda a.a))& 
+\to
+
+( \lambda b.b b) ( \lambda b.b b) (( \lambda c.(c b)) ( \lambda a.a)) \to 
+
+( \lambda b.b b) ( \lambda b.b b)  (( \lambda a.a)b) \to
+
+(( \lambda b.b b) ( \lambda b.b b)) b
+
+\section{№2 S K K = I} 
+
+(\lambda x y z.x z (y z)) (\lambda x y.x ) (\lambda x y.x) \to
+
+(\lambda x \lambda y \lambda z.x z (y z)) (\lambda x \lambda y.x ) (\lambda x \lambda y.x)\to
+
+(\lambda y \lambda z.(\lambda x \lambda y.x ) z (y z))  (\lambda x \lambda y.x)\to
+
+(\lambda y \lambda z.(\lambda y.z ) (y z))  (\lambda x \lambda y.x)\to
+
+(\lambda y \lambda z.z)  (\lambda x \lambda y.x)\to
+
+\lambda z.z) \to I$
+
+\end{document}
