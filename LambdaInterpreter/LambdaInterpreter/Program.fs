@@ -11,7 +11,7 @@ let getVar term =
     let rec execute term list =
             match term with
             | Variable(v) -> v :: list
-            | Application(term1, term2) -> (execute term1 list) @ (execute term2 list)
+            | Application(term1, term2) -> List.append (execute term1 list) (execute term2 list)
             | LambdaAbstraction(v, term1) -> execute term1 (List.filter(fun x -> x <> v) list)
     execute term []
 let checkFreeVar var term = term |> getVar |> List.exists(fun x -> x = var)
