@@ -53,8 +53,8 @@ let primeNumbers () =
     let rec testOnPrime element list =
         match list with
         | [] -> true
-        | h :: tail when element % h = 0 -> false
-        | h :: tail when element % h <> 0 -> testOnPrime element tail
+        | h :: tail ->
+            if element % h = 0 then false else testOnPrime element tail
     let rec sequence element list =
         seq {
             if testOnPrime element list then
