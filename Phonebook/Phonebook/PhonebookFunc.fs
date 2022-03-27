@@ -2,30 +2,37 @@
 
 open System.IO
 
+// справочник
 type BookOfNumber =
     {Name : string; Phone : string}
-    
+ 
+ // добавление контакта   
 let addPhone name phone book =
     {Name = name; Phone = phone} :: book
     
+// поиск имени по телефону 
 let rec findNameByPhone phone (book : BookOfNumber list) =
     let getFirst ({Name = a; Phone =  b} : BookOfNumber) = a
     book |> List.filter (fun {Name = _; Phone = x} -> x = phone) |> List.map(getFirst) 
-    
+ 
+// поиск телефона по имени   
 let rec findPhoneByName name (book : BookOfNumber list) =
     let getSecond ({Name = a; Phone =  b} : BookOfNumber) = b
     book |> List.filter (fun {Name = x; Phone = _} -> x = name) |> List.map(getSecond)
-    
+
+// вывести все контакты     
 let rec printAll book =
     let person (book : BookOfNumber list) = book.Head
     if (not(book |> List.isEmpty)) then
         printf "%s  %s\n" (person book).Name (person book).Phone
         printAll book.Tail
-        
+
+// запись в файл        
 let writeToFile (path : string) book =
     use writer = new StreamWriter(path)
     book |> List.iter (fun {Name = x; Phone = y} -> (writer.WriteLine $"{x} {y}"))
-    
+
+// считать с файла    
 let readFromFile path =
     let lines path = File.ReadAllLines(path) |> Array.toList
     let split (line : string) = line.Split ' '
