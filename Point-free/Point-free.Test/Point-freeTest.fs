@@ -6,8 +6,7 @@ open Program
     
 [<Test>]
 let checkEqualTest () =
-    let check x l =
-        funcToList x l = funcToList'3 () x l
+    let check x list =
+        funcToList x list = funcToList3 x list
         
-    
-    Check.QuickThrowOnFailure check 
+    Check.QuickThrowOnFailure check
