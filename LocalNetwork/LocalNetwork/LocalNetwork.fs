@@ -1,28 +1,53 @@
 ﻿module LocalNetwork.LocalNetwork
 
 open System
+open System.Collections.Generic
 
-type Computer(id, name, virus, probability : float) =
+// виды систем
+type OperationSystem =
+    | Windows
+    | Linux
+    | MacOS
+
+// тип компьютера
+type Computer(id : int,name : OperationSystem, virus : bool, probability : float) =
     member val Id = id
-    member val Name = name
+    member val Name =
+        match name with
+        | Windows -> "Windows"
+        | Linux -> "Linux"
+        | MacOS -> "MacOS"
     member val Virus = virus with get, set
     member val Probability = probability
-
-type Network (graph : int[,] , virus : int List) =
-    let goVirus graph virus =
-        let rec doVirus (graph : int[,]) virus : int List =                              // обход в ширину для каждого компа с вирусом
-            match virus with                                     // обход в ширину для вируса с проверкой на вероятность      
-                | h :: tail ->
-                    let (neighbour : Computer List) = (graph |> Array.filter (fun [virus, x] -> x != 0 )) |> Array.toList
-                    let neighbourIndex = graph |> Array.filter 
-                    let rec tryVirus  (graph : Computer[,]) (neighbour : Computer List) (virus : int List)=
-                        match neighbour with
-                            | h :: tail ->
-                                let random = new Random(float)
-                                let probability = random.NextDouble
-                                if (probability <= h.Probability) then
-                                    h.Virus = true
-                                    virus |> Array.append 
+    
+// локальная сеть
+type public Network(graph : int [,], computers : List<Computer>, virus : List<int>) =
+    let check =
+        virus.Count = computers.Count
+     
+    let random =
+         let randomDouble = new Random()
+         randomDouble.NextDouble()
         
-    member this.Graph = graph
-    member this.Virus = virus
+    let virusNetwork (graph : int [,]) (computers : List<Computer>) (virus : List<int>) =
+        for i in 0 .. computers.Count - 1 do
+            if (computers.Item i).Virus then 
+                for j in 0 .. computers.Count - 1 do
+                    if (graph[i, j] = 1 && not (computers.Item j).Virus) then
+                        if (computers.Item j).Probability <= random then
+                           (computers.Item j).Virus <- true            
+            
+    let print() =
+        for i in 0 .. computers.Count - 1 do
+            let computer = computers.Item i
+            printfn "Name: %i, OS: %s, is infected: %b" i computer.Name computer.Virus
+        printfn "\n"
+            
+    member val Graph = graph with get, set
+    member val Computers = computers with get
+    member val Virus = virus with get,set
+    
+     member this.DoAll() =
+         while not check do
+            virusNetwork graph computers virus
+            print()
