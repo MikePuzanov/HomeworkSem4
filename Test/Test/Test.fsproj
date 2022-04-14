@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+        <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="MinInList.fs" />
+        <Compile Include="Tree.fs" />
+        <Compile Include="Program.fs" />
+        <Compile Include="HashTable.fs" />
+    </ItemGroup>
+
+</Project>
