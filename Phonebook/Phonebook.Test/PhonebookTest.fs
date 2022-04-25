@@ -36,5 +36,4 @@ let fileTest () =
     writeToFile "Test.txt" book
     
     readFromFile "Test.txt" |> should equal [{Name = "Yly"; Phone = "789"}; {Name = "Ele"; Phone = "456"}; {Name = "Ulu"; Phone = "123"}]
-    (*readFromFile "123.txt" |> should raise (FileNotFoundException "Файл не найден.")*)
     (fun () -> readFromFile "123.txt" |> ignore) |> should throw typeof<System.IO.FileNotFoundException>
