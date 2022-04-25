@@ -2,7 +2,7 @@ module Point_free.Test
 
 open NUnit.Framework
 open FsCheck
-open Program
+open PointFree
     
 [<Test>]
 let checkEqualTest () =

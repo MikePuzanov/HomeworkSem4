@@ -1,3 +1,4 @@
+module PointFree
 // изначальная функция
 let funcToList x l = List.map (fun y -> y * x) l
  
