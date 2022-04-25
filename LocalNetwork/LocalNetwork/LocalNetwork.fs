@@ -21,33 +21,35 @@ type Computer(id : int,name : OperationSystem, virus : bool, probability : float
     member val Probability = probability
     
 // локальная сеть
-type public Network(graph : int [,], computers : List<Computer>, virus : List<int>) =
-    let check =
-        virus.Count = computers.Count
-     
-    let random =
-         let randomDouble = new Random()
-         randomDouble.NextDouble()
-        
-    let virusNetwork (graph : int [,]) (computers : List<Computer>) (virus : List<int>) =
-        for i in 0 .. computers.Count - 1 do
-            if (computers.Item i).Virus then 
-                for j in 0 .. computers.Count - 1 do
-                    if (graph[i, j] = 1 && not (computers.Item j).Virus) then
-                        if (computers.Item j).Probability <= random then
-                           (computers.Item j).Virus <- true            
+type public Network(matrix : int [,], computers : Computer[], virus : int list) =
+    let matrix = matrix
+    let computers = computers
+    let mutable state = true
+    let mutable countOfSteps = 0
+    let virusNetwork() =
+        state <- false
+        countOfSteps <- countOfSteps + 1
+        for i in 0 .. computers.Length - 1 do
+            if (Array.get computers i).Virus then 
+                for j in 0 .. computers.Length - 1 do
+                    let comp = Array.get computers j
+                    if (Array2D.get matrix i j = 1 && not comp.Virus) then
+                        state <- true
+                        let random = Random().NextDouble()
+                        if comp.Probability >= random then
+                           comp.Virus <- true
             
-    let print() =
-        for i in 0 .. computers.Count - 1 do
-            let computer = computers.Item i
-            printfn "Name: %i, OS: %s, is infected: %b" i computer.Name computer.Virus
-        printfn "\n"
-            
-    member val Graph = graph with get, set
+    let print =
+        printfn "\n\nStep: %i" countOfSteps
+        for i in 0 .. computers.Length - 1 do
+            let computer = Array.get computers i
+            printfn "\nName: %i, Operation system: %s, is infected: %b" (i + 1) computer.Name computer.Virus
+
+    new (matrix: int[,], computers: Computer[]) = Network(matrix, computers)
     member val Computers = computers with get
-    member val Virus = virus with get,set
-    
-     member this.DoAll() =
-         while not check do
-            virusNetwork graph computers virus
-            print()
+    member this.DoOneStep() =
+        virusNetwork()
+    member this.DoAll() =
+        while state  do
+           virusNetwork()
+           print
