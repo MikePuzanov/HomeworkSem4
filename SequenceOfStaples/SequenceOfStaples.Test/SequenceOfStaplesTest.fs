@@ -23,4 +23,3 @@ let TestExpWrongWithDifferentSides () =
 let TestExpWrongWithDifferentStaple () =
     let result = checkStaples "(]"
     result |> should equal false
-    
