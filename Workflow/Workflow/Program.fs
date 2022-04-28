@@ -12,7 +12,7 @@ type CalculateBuilder() =
         try
             match Int32.TryParse x with
             | true, x -> f x
-            | false, x -> raise(ArgumentException())
+            | false, _ -> raise(ArgumentException())
         with
             | :? ArgumentException -> None
     member this.Return(x) = Some x
