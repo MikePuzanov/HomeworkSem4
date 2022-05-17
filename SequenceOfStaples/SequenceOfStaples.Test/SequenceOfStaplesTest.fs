@@ -6,7 +6,12 @@ open Program
 
 [<Test>]
 let TestExpTrue () =
-    let result = checkStaples "(({}))"
+    let result = checkStaples "({[]})"
+    result |> should equal true
+    
+[<Test>]
+let TestWithEmptyString () =
+    let result = checkStaples ""
     result |> should equal true
     
 [<Test>]
