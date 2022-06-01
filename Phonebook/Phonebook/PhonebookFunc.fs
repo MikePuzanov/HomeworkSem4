@@ -12,8 +12,7 @@ let addPhone name phone book =
     
 // поиск имени по телефону 
 let rec findNameByPhone phone (book : BookOfNumber list) =
-    let getFirst ({Name = a; Phone =  b} : BookOfNumber) = a
-    book |> List.filter (fun {Name = _; Phone = x} -> x = phone) |> List.map(getFirst) 
+     book |> List.filter (fun {Phone = x} -> x = phone) |> List.map(fun {Name = x} -> x) 
  
 // поиск телефона по имени   
 let rec findPhoneByName name (book : BookOfNumber list) =

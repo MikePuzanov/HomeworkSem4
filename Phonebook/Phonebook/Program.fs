@@ -35,7 +35,7 @@ let rec program book =
     let command = getCommand ()
     match command with
     | "0" -> ()  
-    | "1" -> addPhone (getName ()) (getPhone ()) book |> program
+    | "1" -> book |> addPhone (getName ()) (getPhone ()) |> program
     | "2" ->
         (findPhoneByName (getName()) book) |> List.iter(fun x -> printf "%s" x)
         program book
