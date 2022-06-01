@@ -24,32 +24,28 @@ type Computer(id : int,name : OperationSystem, virus : bool, probability : float
 type public Network(matrix : int [,], computers : Computer[], virus : int list) =
     let matrix = matrix
     let computers = computers
-    let mutable state = true
+    let mutable IsAnyInfected = true
     let mutable countOfSteps = 0
     let virusNetwork() =
-        state <- false
-        countOfSteps <- countOfSteps + 1
-        for i in 0 .. computers.Length - 1 do
-            if (Array.get computers i).Virus then 
-                for j in 0 .. computers.Length - 1 do
+        IsAnyInfected <- false
+        countOfSteps <- countOfSteps + 1 
+        computers |> Array.iteri(fun i computer ->
+            if computer.Virus then
+                computers |> Array.iteri(fun j computer ->
                     let comp = Array.get computers j
                     if (Array2D.get matrix i j = 1 && not comp.Virus) then
-                        state <- true
-                        let random = Random().NextDouble()
-                        if comp.Probability >= random then
-                           comp.Virus <- true
+                        IsAnyInfected <- true
+                        if comp.Probability >= Random().NextDouble() then
+                           comp.Virus <- true))
             
     let print =
-        printfn "\n\nStep: %i" countOfSteps
-        for i in 0 .. computers.Length - 1 do
-            let computer = Array.get computers i
-            printfn "\nName: %i, Operation system: %s, is infected: %b" (i + 1) computer.Name computer.Virus
+         printfn "\n\nStep: %i" countOfSteps
+         computers |> Array.iteri(fun i computer -> printfn $"\nName: %i{i + 1}, Operation system: %s{computer.Name}, is infected: %b{computer.Virus}")
 
-    new (matrix: int[,], computers: Computer[]) = Network(matrix, computers)
     member val Computers = computers with get
     member this.DoOneStep() =
         virusNetwork()
     member this.DoAll() =
-        while state  do
+        while IsAnyInfected  do
            virusNetwork()
            print

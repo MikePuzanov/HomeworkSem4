@@ -6,10 +6,6 @@ open NUnit.Framework
 open FsUnit
 open LocalNetwork
 
-[<SetUp>]
-let Setup () =
-    ()
-
 [<Test>]
 let TestWithProbability1 () =
     let comp1 = Computer(0, OperationSystem.Linux, false, 1.0)
@@ -35,7 +31,6 @@ let TestWithProbability0 () =
         comp.Virus |> should equal false
         
 [<Test>]
-
 let TestWithDifferentProbability () =
     let comp1 = Computer(0, OperationSystem.Linux, true, 0.3)
     let comp2 = Computer(0, OperationSystem.Windows, false, 0.3)
